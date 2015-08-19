@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    TOML 简介 // Sun Boy
+  </title>
+
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书写便捷性也在不断提升。 TOML是前GitHub CEO， Tom Preston-Werner，于2013年创建的语言，其目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换为一个哈希表(Hash table)。">
+<meta name="keywords" content="">
+<meta name="author" content="sunclx">
+<meta name="generator" content="Hugo 0.15-DEV" />
+
+  <meta property="og:title" content="TOML 简介" />
+<meta property="og:description" content="配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书写便捷性也在不断提升。 TOML是前GitHub CEO， Tom Preston-Werner，于2013年创建的语言，其目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换为一个哈希表(Hash table)。" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="http://chenlixin.me/posts/first/" />
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+  <link rel="stylesheet" href="http://chenlixin.me/css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://chenlixin.me/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://chenlixin.me/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sun Boy" />
+
+    
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/tomorrow-night-bright.min.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+</head>
+
+<body>
+	
+		<div id="nav-to-top" style="display:block">
+			
+					
+			
+			
+				<div id="toc" class="pure-u-1 pure-u-md-1-1">
+					<small class="toc-label">Contents</small><span class="decorative-marker">//</span><a href="#top">To Top</a>
+		   	 	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#toml的由来:e8fb9c67eba912c72729806db31eaa1b">TOML的由来</a></li>
+<li><a href="#例子:e8fb9c67eba912c72729806db31eaa1b">例子</a></li>
+<li><a href="#规范:e8fb9c67eba912c72729806db31eaa1b">规范</a>
+<ul>
+<li><a href="#注释:e8fb9c67eba912c72729806db31eaa1b">注释</a></li>
+<li><a href="#字符串:e8fb9c67eba912c72729806db31eaa1b">字符串</a></li>
+<li><a href="#整数:e8fb9c67eba912c72729806db31eaa1b">整数</a></li>
+<li><a href="#浮点数:e8fb9c67eba912c72729806db31eaa1b">浮点数</a></li>
+<li><a href="#布尔值:e8fb9c67eba912c72729806db31eaa1b">布尔值</a></li>
+<li><a href="#日期时间:e8fb9c67eba912c72729806db31eaa1b">日期时间</a></li>
+<li><a href="#数组:e8fb9c67eba912c72729806db31eaa1b">数组</a></li>
+<li><a href="#表格:e8fb9c67eba912c72729806db31eaa1b">表格</a></li>
+<li><a href="#表格数组:e8fb9c67eba912c72729806db31eaa1b">表格数组</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+		    	</div>		
+		   
+		   
+		    
+	    
+		</div>
+	
+
+	<div id="layout" class="pure-g">
+	
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+    <h1 class="brand-title">Sun{-} Boy</h1>
+    <h2 class="brand-tagline">Is super awesome</h2>
+
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item"><span class="nav-item-separator">//</span><a href="http://chenlixin.me">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="http://chenlixin.me/">Blog</a></li>
+        
+      </ul>
+    </nav>
+
+    
+
+  </div>
+</div>
+
+    
+
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-5 pure-hidden-phone">
+		<a name="top"></a>
+		
+
+		
+			
+			<div id="nav-to-top">
+				<div id="toc" class="pure-u-1 pure-u-md-1-1">
+				<small class="toc-label">Contents</small>
+		   	 	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#toml的由来:e8fb9c67eba912c72729806db31eaa1b">TOML的由来</a></li>
+<li><a href="#例子:e8fb9c67eba912c72729806db31eaa1b">例子</a></li>
+<li><a href="#规范:e8fb9c67eba912c72729806db31eaa1b">规范</a>
+<ul>
+<li><a href="#注释:e8fb9c67eba912c72729806db31eaa1b">注释</a></li>
+<li><a href="#字符串:e8fb9c67eba912c72729806db31eaa1b">字符串</a></li>
+<li><a href="#整数:e8fb9c67eba912c72729806db31eaa1b">整数</a></li>
+<li><a href="#浮点数:e8fb9c67eba912c72729806db31eaa1b">浮点数</a></li>
+<li><a href="#布尔值:e8fb9c67eba912c72729806db31eaa1b">布尔值</a></li>
+<li><a href="#日期时间:e8fb9c67eba912c72729806db31eaa1b">日期时间</a></li>
+<li><a href="#数组:e8fb9c67eba912c72729806db31eaa1b">数组</a></li>
+<li><a href="#表格:e8fb9c67eba912c72729806db31eaa1b">表格</a></li>
+<li><a href="#表格数组:e8fb9c67eba912c72729806db31eaa1b">表格数组</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+		    	</div>		
+		    </div>
+		   
+		    
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="http://chenlixin.me/posts/first/">TOML 简介</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	<span class="post-date">
+                	<span class="post-date-day"><sup>11</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Aug</span> <span class="post-date-year">2015</span>
+            	</span>
+            	
+            
+            	
+            		<span class="post-author-single">By <a class="post-author"  target="">sunclx</a></span>
+            		
+
+
+
+
+            	
+            
+
+			
+			
+				<div class="post-categories">
+				
+					<a class="post-category post-category-hello" href="http://chenlixin.me/categories/hello">hello</a>
+				
+					<a class="post-category post-category-world" href="http://chenlixin.me/categories/world">world</a>
+				
+				</div>
+			
+
+			
+
+			
+
+            
+
+<h2 id="toml的由来:e8fb9c67eba912c72729806db31eaa1b">TOML的由来</h2>
+
+<p>配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书写便捷性也在不断提升。 TOML是前GitHub CEO， Tom Preston-Werner，于2013年创建的语言，其目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换为一个哈希表(Hash table)。</p>
+
+<h2 id="例子:e8fb9c67eba912c72729806db31eaa1b">例子</h2>
+
+<pre><code class="language-toml"># 这是一个TOML文件
+title = &quot;TOML Example&quot;
+
+[owner]
+name = &quot;Lance Uppercut&quot;
+dob = 1979-05-27T07:32:00-08:00 # 日期是一等公民
+
+[database]
+server = &quot;192.168.1.1&quot;
+ports = [ 8001, 8001, 8002 ]
+connection_max = 5000
+enabled = true
+
+[servers]
+  #你可以使用空格、制表符进行缩进，或者根本不缩进。TOML不关心缩进。
+  [servers.alpha]
+  ip = &quot;10.0.0.1&quot;
+  dc = &quot;eqdc10&quot;
+
+  [servers.beta]
+  ip = &quot;10.0.0.2&quot;
+  dc = &quot;eqdc10&quot;
+
+[clients]
+data = [ [&quot;gamma&quot;, &quot;delta&quot;], [1, 2] ]
+
+# 数组内可以混入换行符
+hosts = [
+  &quot;alpha&quot;,
+  &quot;omega&quot;
+]
+</code></pre>
+
+<h2 id="规范:e8fb9c67eba912c72729806db31eaa1b">规范</h2>
+
+<p>TOML是大小写敏感的
+TOML文件必须是UTF8编码的
+空白符可以是制表符(0x09)或空格(0x20)
+换行符可以是 LF (0x0A) 或 CRLF (0x0D0A)
+TOML仍在不断完善，目前的版本0.4.0，下面是最新的规范。</p>
+
+<h3 id="注释:e8fb9c67eba912c72729806db31eaa1b">注释</h3>
+
+<p>使用#来表示注释开始，至当前行尾结束。</p>
+
+<pre><code># I am a comment. Hear me roar. Roar.
+key = &quot;value&quot; # Yeah, you can do this.
+</code></pre>
+
+<h3 id="字符串:e8fb9c67eba912c72729806db31eaa1b">字符串</h3>
+
+<p>TOML中有4种字符串表示方法：基本、多行-基本、字面量、多行-字面量。所有字符串必须是合法的UTF8字符。
+基本字符串由双引号包裹，所有Unicode字符均可出现，除了双引号、反斜线、控制字符(U+0000 to U+001F)需要转义。</p>
+
+<pre><code>str = &quot;I'm a string. \&quot;You can quote me\&quot;. Name\tJos\u00E9\nLocation\tSF.&quot;
+</code></pre>
+
+<p>常用的转义序列：</p>
+
+<pre><code>\b         - backspace       (U+0008)
+\t         - tab             (U+0009)
+\n         - linefeed        (U+000A)
+\f         - form feed       (U+000C)
+\r         - carriage return (U+000D)
+\&quot;         - quote           (U+0022)
+\\         - backslash       (U+005C)
+\uXXXX     - unicode         (U+XXXX)
+\UXXXXXXXX - unicode         (U+XXXXXXXX)
+</code></pre>
+
+<p>多行-基本字符串由三个双引号包裹，除了分隔符开始的换行外，字符串内的换行将被保留。</p>
+
+<pre><code>str1 = &quot;&quot;&quot;
+Roses are red
+Violets are blue&quot;&quot;&quot;
+</code></pre>
+
+<p>TOML解析器可以将其翻译为平台相关的字符串，如</p>
+
+<pre><code># Unix上，上述字符串等同于
+str2 = &quot;Roses are red\nViolets are blue&quot;
+
+# Windows上，上述字符串等同于
+str3 = &quot;Roses are red\r\nViolets are blue&quot;
+</code></pre>
+
+<p>在多行-基本字符串中可以在行尾使用\来忽略其后的所有(换行符和空白符）直到第一个非空白符。</p>
+
+<pre><code># 以下字符串等价
+str1 = &quot;The quick brown fox jumps over the lazy dog.&quot;
+
+str2 = &quot;&quot;&quot;
+The quick brown \
+
+
+  fox jumps over \
+    the lazy dog.&quot;&quot;&quot;
+
+key3 = &quot;&quot;&quot;\
+       The quick brown \
+       fox jumps over \
+       the lazy dog.\
+       &quot;&quot;&quot;
+</code></pre>
+
+<p>字面量字符串由单引号包裹，其内不允许转义，因此可以方便的表示基本字符串中需要转义的内容。</p>
+
+<pre><code># What you see is what you get.
+winpath  = 'C:\Users\nodejs\templates'
+winpath2 = '\\ServerX\admin$\system32\'
+quoted   = 'Tom &quot;Dubs&quot; Preston-Werner'
+regex    = '&lt;\i\c*\s*&gt;'
+</code></pre>
+
+<p>多行-字面量字符串与多行-基本字符串类似。</p>
+
+<h3 id="整数:e8fb9c67eba912c72729806db31eaa1b">整数</h3>
+
+<pre><code>int1 = +99
+int2 = 42
+int3 = 0
+int4 = -17
+</code></pre>
+
+<p>为了增加可读性，整数可以使用_分隔。每个_必须被至少一个数字环绕。
+不被允许的表达：前置0，2、8、16进制、无穷、NaN。 整数的范围是64bit signed long类型的范围。</p>
+
+<h3 id="浮点数:e8fb9c67eba912c72729806db31eaa1b">浮点数</h3>
+
+<pre><code># fractional
+flt1 = +1.0
+flt2 = 3.1415
+flt3 = -0.01
+
+# exponent
+flt4 = 5e+22
+flt5 = 1e6
+flt6 = -2E-2
+
+# both
+flt7 = 6.626e-34
+</code></pre>
+
+<p>浮点数的范围是64 bit double类型的范围。</p>
+
+<h3 id="布尔值:e8fb9c67eba912c72729806db31eaa1b">布尔值</h3>
+
+<p>小写的true或false。</p>
+
+<pre><code>bool1 = true
+bool2 = false
+</code></pre>
+
+<h3 id="日期时间:e8fb9c67eba912c72729806db31eaa1b">日期时间</h3>
+
+<p>使用RFC 3339描述的时间格式</p>
+
+<pre><code>date1 = 1979-05-27T07:32:00Z
+date2 = 1979-05-27T00:32:00-07:00
+date3 = 1979-05-27T00:32:00.999999-07:00
+</code></pre>
+
+<h3 id="数组:e8fb9c67eba912c72729806db31eaa1b">数组</h3>
+
+<p>数组使用方括号包裹。空格会被忽略，包括换行符。元素使用逗号分隔。注意，不允许混用数据类型(所有的字符串类型均为同一类型)。</p>
+
+<pre><code>arr1 = [ 1, 2, 3 ]
+arr2 = [ &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot; ]
+arr3 = [ [ 1, 2 ], [3, 4, 5] ]
+arr4 = [ &quot;all&quot;, 'strings', &quot;&quot;&quot;are the same&quot;&quot;&quot;, '''type'''] # this is ok
+arr5 = [ [ 1, 2 ], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] ] # this is ok
+arr6 = [ 1, 2.0 ] # note: this is NOT ok
+</code></pre>
+
+<h3 id="表格:e8fb9c67eba912c72729806db31eaa1b">表格</h3>
+
+<p>表格叶称为哈希表或字典，用来存储键值对。表格名由方括号包裹，且自成一行。
+[table]
+表格名下，直到下一个表格名或文件尾，均为当前表格的内容。</p>
+
+<pre><code>[table]
+key = &quot;value&quot;
+bare_key = &quot;value&quot;
+bare-key = &quot;value&quot;
+
+&quot;127.0.0.1&quot; = &quot;value&quot;
+&quot;character encoding&quot; = &quot;value&quot;
+&quot;ʎǝʞ&quot; = &quot;value&quot;
+</code></pre>
+
+<p>表格可以嵌套，即表格中某个键的值可以为表格。</p>
+
+<pre><code>[dog]
+onekey = onevalue
+
+[dog.tater]
+type = &quot;pug&quot;
+</code></pre>
+
+<p>等价于</p>
+
+<pre><code>{
+	&quot;dog&quot;: { 
+		&quot;onekey&quot;:&quot;onevalue&quot;,
+		&quot;tater&quot;: { &quot;type&quot;: &quot;pug&quot; } 
+	} 
+}
+</code></pre>
+
+<p>如果你不想的话，你不用声明所有的父表。TOML　知道该如何处理。</p>
+
+<pre><code># [x] 你
+# [x.y] 不需要
+# [x.y.z] 这些
+[x.y.z.w] # 可以直接写
+</code></pre>
+
+<h3 id="表格数组:e8fb9c67eba912c72729806db31eaa1b">表格数组</h3>
+
+<pre><code>[[products]]
+name = &quot;Hammer&quot;
+sku = 738594937
+
+[[products]]
+
+[[products]]
+name = &quot;Nail&quot;
+sku = 284758393
+color = &quot;gray&quot;
+</code></pre>
+
+<p>等价于以下的　JSON 结构：</p>
+
+<pre><code>{
+  &quot;products&quot;: [
+    { &quot;name&quot;: &quot;Hammer&quot;, &quot;sku&quot;: 738594937 },
+    { },
+    { &quot;name&quot;: &quot;Nail&quot;, &quot;sku&quot;: 284758393, &quot;color&quot;: &quot;gray&quot; }
+  ]
+}
+</code></pre>
+
+	
+			
+
+			
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-toml" href="http://chenlixin.me/tags/toml">toml</a>,
+	                
+	                <a class="post-tag post-tag-programming" href="http://chenlixin.me/tags/programming">programming</a>,
+	                
+				</div>
+			
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+					
+
+					
+					<div class="paging-older">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+			            <a class="paging-link" href="http://chenlixin.me/about/">关于</a>
+		            </div>
+		            
+	            </div>
+            
+          </section>
+          
+          	<section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'sunclx';
+        var disqus_developer = 0; 
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+			<li><a href="http://chenlixin.me/">HOME</a></li>
+		
+		</ul>
+	</div>
+
+	<p>&copy; 2015. All rights reserved.</p>
+</div>
+    </div>
+  </div>
+	
+
+	
+
+  <script type="text/javascript">
+			
+			      document.getElementById('nav-to-top').style.display = 'inline';
+			
+</script>
+</body>
+</html>
