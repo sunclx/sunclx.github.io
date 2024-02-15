@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Sun Boy</title>
-    <link>http://chenlixin.me/posts/</link>
+    <link>http://chenlixin.eu.org/posts/</link>
     <description>Recent content in Posts on Sun Boy</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 11 Aug 2015 21:15:18 +0800</lastBuildDate>
-    <atom:link href="http://chenlixin.me/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://chenlixin.eu.org/posts/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>TOML 简介</title>
-      <link>http://chenlixin.me/posts/first/</link>
+      <link>http://chenlixin.eu.org/posts/first/</link>
       <pubDate>Tue, 11 Aug 2015 21:15:18 +0800</pubDate>
       
-      <guid>http://chenlixin.me/posts/first/</guid>
+      <guid>http://chenlixin.eu.org/posts/first/</guid>
       <description>
 
 &lt;h2 id=&#34;toml的由来:e8fb9c67eba912c72729806db31eaa1b&#34;&gt;TOML的由来&lt;/h2&gt;
